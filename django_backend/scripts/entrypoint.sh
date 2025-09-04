@@ -1,5 +1,9 @@
 #!/bin/sh
 
-echo "\nStarting Django...\n"
+echo "\nWaiting for Postgres...\n"
+while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
+  sleep 0.5
+done
 
+echo "\nStarting Django...\n"
 python3 manage.py runserver 0.0.0.0:8000
