@@ -7,9 +7,10 @@ class Tag(models.Model):
     Represents a tag that can be associated with tasks.
     Used for categorization, filtering, and searching.
     """
+
+    # Core fields
     name = models.CharField(max_length=50, unique=True)
     color = models.CharField(max_length=7, default="#FFFFFF")
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -95,6 +96,11 @@ class Comment(models.Model):
     """
     Represents a comment made on a task by a user.
     """
+    
+    # Core fields
+    content = models.TextField()
+
+    # Relationships
     task = models.ForeignKey(
         Task,
         on_delete=models.CASCADE,
@@ -105,8 +111,8 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name="comments",
     )
-    content = models.TextField()
 
+    # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

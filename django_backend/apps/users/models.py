@@ -7,7 +7,10 @@ class Team(models.Model):
     Represents a team of users.
     Each team has one lead.
     """
+    # Core fields
     name = models.CharField(max_length=100, unique=True)
+    
+    # Relationships
     lead = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -17,6 +20,7 @@ class Team(models.Model):
         help_text="User who leads the team",
     )
 
+    # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -32,6 +36,8 @@ class User(AbstractUser):
     Custom user model extending Django's AbstractUser.
     Each user can belong to one team.
     """
+
+    # Relationships
     team = models.ForeignKey(
         Team,
         on_delete=models.SET_NULL,
