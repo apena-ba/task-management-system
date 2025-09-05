@@ -89,3 +89,44 @@ class Task(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.status})"
+
+
+class Comment(models.Model):
+    """
+    Represents a comment made on a task by a user.
+    """
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+        related_name="comments",
+    )
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="comments",
+    )
+    content = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "comments"
+        ordering = ["created_at"]
+
+    def __str__(self):
+        return f"Comment by {self.author} on {self.task}"
+
+
+class TaskTemplate(Task):
+    """
+    Template for tasks.
+    Inherits all fields from Task but is stored separately in its own table.
+    Used to create new tasks based on pre-defined templates.
+    """
+    class Meta:
+        db_table = "task_templates"
+        ordering = ["title"]
+
+    def __str__(self):
+        return f"Template: {self.title}"

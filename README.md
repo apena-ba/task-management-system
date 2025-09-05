@@ -10,3 +10,8 @@ cp .env.sample .env
 docker-compose up
 docker compose down --volumes --rmi all
 ```
+
+```
+python3 manage.py makemigrations
+python3 manage.py migrate
+```
