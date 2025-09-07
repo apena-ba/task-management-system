@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 
 
 class Team(models.Model):
@@ -7,6 +8,7 @@ class Team(models.Model):
     Represents a team of users.
     Each team has one lead.
     """
+
     # Core fields
     name = models.CharField(max_length=100, unique=True)
     

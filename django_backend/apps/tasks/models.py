@@ -29,15 +29,15 @@ class Task(models.Model):
     """
 
     STATUS_CHOICES = [
-        ("todo", "To Do"),
-        ("in_progress", "In Progress"),
-        ("done", "Done")
+        ("todo", "Task pending to be done"),
+        ("in_progress", "Task in progress"),
+        ("done", "Completed task")
     ]
 
     PRIORITY_CHOICES = [
-        ("low", "Low"),
-        ("medium", "Medium"),
-        ("high", "High")
+        ("low", "Low priority"),
+        ("medium", "Medium priority"),
+        ("high", "High priority")
     ]
 
     # Core fields
@@ -106,7 +106,7 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name="comments",
     )
-    author = models.ForeignKey(
+    created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="comments",
@@ -121,7 +121,7 @@ class Comment(models.Model):
         ordering = ["created_at"]
 
     def __str__(self):
-        return f"Comment by {self.author} on {self.task}"
+        return f"Comment by {self.created_by} on {self.task}"
 
 
 class TaskTemplate(Task):
