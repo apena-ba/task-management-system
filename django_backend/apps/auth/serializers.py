@@ -54,7 +54,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(password=password, **validated_data)
         return user
 
-
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     """Extends JWT login response to include user info"""
     def validate(self, attrs):

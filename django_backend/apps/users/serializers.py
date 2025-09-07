@@ -7,7 +7,6 @@ class TeamSerializer(serializers.ModelSerializer):
         model = Team
         fields = ["id", "name", "lead"]
 
-
 class UserSerializer(serializers.ModelSerializer):
     team = TeamSerializer(read_only=True)
 
