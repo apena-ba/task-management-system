@@ -18,6 +18,8 @@ One of my priorities as a developer is cybersecurity. Protecting users confident
 
 Using JWT avoid storing cookies in the server and allows a secure token workflow.
 
+I decided to keep the folders ```apps/auth/``` and ```apps/users/``` separate. This way the apps organization is based on functionality, as the authentication and user interaction via the API serve two different purposes.
+
 - **Swagger**
     + Running on &rarr; ```/api/docs/```
     + Set the access token in the authorize box like this &rarr; ```Bearer <access_token>```
