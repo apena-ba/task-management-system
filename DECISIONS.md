@@ -1,5 +1,4 @@
 # Decisions
-
 This document includes details about the implemented and skipped feautures during my development.
 
 ## ✅ Features implemented
