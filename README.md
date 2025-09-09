@@ -8,7 +8,7 @@ Task Management System built with Django REST Framework, PostgreSQL, Redis, and 
 git clone https://github.com/apena-ba/task-management-system.git
 cd task-management-system
 cp .env.sample .env
-docker-compose up
+docker compose up
 ```
 
 The application will be available at: **http://localhost:80**
@@ -69,22 +69,22 @@ All configuration is handled through the `.env` file. Copy `.env.sample` to `.en
 ### Container Management
 ```bash
 # Start all services
-docker-compose up
+docker compose up
 
 # Run in background
-docker-compose up -d
+docker compose up -d
 
 # View logs
-docker-compose logs [service_name]
+docker compose logs [service_name]
 
 # Stop services
-docker-compose down
+docker compose down
 
 # Stop services and remove volumes and images
-docker-compose down --volumes --rmi all
+docker compose down --volumes --rmi all
 
 # Rebuild containers
-docker-compose up --build
+docker compose up --build
 ```
 
 ### Database Operations
@@ -116,7 +116,7 @@ Comprehensive project documentation is available in the `docs/` directory:
 
 ```
 task-management-system/
-├── docker-compose.yml          # Container orchestration
+├── docker compose.yml          # Container orchestration
 ├── .env.sample                 # Environment variables template
 ├── django_backend/             # Django application
 │   ├── Dockerfile             # Django container image
