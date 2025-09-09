@@ -22,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*x^uk3r94&n&9ra1$eotb&#7o_n0$4(aa0j8ydqcu829bok)!o'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -94,6 +94,7 @@ SPECTACULAR_SETTINGS = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -146,10 +147,6 @@ CELERY_BEAT_SCHEDULE = {
         "task": "apps.celery.tasks.generate_daily_summary",
         "schedule": 86400.0,  # daily
     },
-    "overdue-check": {
-        "task": "apps.celery.tasks.check_overdue_tasks",
-        "schedule": 3600.0,  # hourly
-    },
     "cleanup": {
         "task": "apps.celery.tasks.cleanup_archived_tasks",
         "schedule": 604800.0,  # weekly
@@ -191,7 +188,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'apps/common/static/'
+STATIC_URL = '/static/'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

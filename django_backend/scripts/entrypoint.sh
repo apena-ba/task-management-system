@@ -12,5 +12,8 @@ echo "\nRunning migrations...\n"
 python3 manage.py makemigrations
 python3 manage.py migrate
 
+echo "\nCollecting static files...\n"
+python3 manage.py collectstatic --noinput
+
 echo "\nStarting: $@\n"
 exec "$@"

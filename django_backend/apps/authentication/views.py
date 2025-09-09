@@ -50,11 +50,13 @@ class LogoutView(generics.GenericAPIView):
 class LogoutRedirectView(View):
     def get(self, request):
         refresh_token = request.COOKIES.get("refresh_token")
+
         if refresh_token:
-            response = requests.post(
-                request.build_absolute_uri("/api/auth/logout/"),
-                json={"refresh": refresh_token},
-            )
+            try:
+                token = RefreshToken(refresh_token)
+                token.blacklist()
+            except Exception:
+                pass
 
         response = redirect("login")
         response.delete_cookie("access_token")

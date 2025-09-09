@@ -49,13 +49,13 @@ services:
       context: ./django_backend
       dockerfile: Dockerfile
     container_name: django
-    command: /app/scripts/entrypoint.sh python3 manage.py runserver 0.0.0.0:8000
+    command: /app/scripts/entrypoint.sh gunicorn config.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ./django_backend:/app
       - ./shared:/shared
     env_file: .env
     ports:
-      - "8000:8000"
+      - "80:8000"
     depends_on:
       postgres:
         condition: service_healthy
