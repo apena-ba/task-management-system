@@ -8,7 +8,7 @@ from apps.tasks.views import (
     TaskDetailTemplateView,
     TaskCreateTemplateView,
     ReportsTemplateView,
-    ReportDownloadView
+    Repo
 )
 
 urlpatterns = [
