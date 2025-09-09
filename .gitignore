@@ -13,7 +13,6 @@ venv/
 *.log
 media/
 staticfiles/
-shared/
 
 # VSCode / PyCharm
 .vscode/
