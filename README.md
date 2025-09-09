@@ -101,8 +101,17 @@ docker exec -it django python3 manage.py shell
 
 ## 🔧 Testing
 
-Basic API testing can be performed through the Swagger UI at `/api/docs/`. For comprehensive testing:
+Basic API testing can be performed through the Swagger UI at `/api/docs/`.
 
+To test the celery tasks, execute them from the celery container:
+```bash
+docker exec -it celery bash
+python3 manage.py shell
+
+>>> from config.celery import app
+>>> result = app.send_task("apps.celery.tasks.generate_daily_summary")
+>>> result = app.send_task("apps.celery.tasks.cleanup_archived_tasks")
+```
 
 ## 📖 Documentation
 
