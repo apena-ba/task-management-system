@@ -12,6 +12,7 @@ docker compose down --volumes --rmi all
 ```
 
 ```
-python3 manage.py makemigrations
-python3 manage.py migrate
+docker exec -it django bash
+python3 manage.py createsuperuser
 ```
+ 
