@@ -13,6 +13,7 @@ venv/
 *.log
 media/
 staticfiles/
+shared/
 
 # VSCode / PyCharm
 .vscode/
@@ -24,3 +25,6 @@ staticfiles/
 *.db
 .env
 test.yml
+
+# Celery
+celerybeat-schedule

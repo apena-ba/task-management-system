@@ -1,0 +1,21 @@
+{% extends "task_base.html" %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+<div class="reports-container">
+    <h2>Available Reports</h2>
+
+    {% if files %}
+        <ul class="report-list">
+            {% for file in files %}
+                <li>
+                    <a href="{% url 'report-download' file %}">{{ file }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No reports available.</p>
+    {% endif %}
+</div>
+{% endblock %}

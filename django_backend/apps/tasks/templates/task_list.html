@@ -1,0 +1,22 @@
+{% extends "task_base.html" %}
+
+{% block title %}Tasks{% endblock %}
+
+{% block content %}
+<div class="tasks-container">
+    <h2>Your Tasks</h2>
+    {% if tasks %}
+        <ul class="task-list">
+            {% for task in tasks %}
+                <li>
+                    <a href="{% url 'task-detail' task.id %}">
+                        <strong>{{ task.title }}</strong> - {{ task.status|title }} ({{ task.priority|title }})
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks available.</p>
+    {% endif %}
+</div>
+{% endblock %}

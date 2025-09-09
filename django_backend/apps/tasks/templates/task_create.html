@@ -1,0 +1,91 @@
+{% extends "task_base.html" %}
+
+{% block title %}Create Task{% endblock %}
+
+{% block content %}
+<div class="task-form-container">
+    <h2>Create New Task</h2>
+    <p id="error-message" class="error" style="display:none;"></p>
+
+    <form id="task-create-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="priority">Priority</label>
+            <select id="priority" name="priority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="due_date">Due Date</label>
+            <input type="date" id="due_date" name="due_date">
+        </div>
+
+        <div class="form-group">
+            <label for="estimated_hours">Estimated Hours</label>
+            <input type="number" id="estimated_hours" name="estimated_hours" step="0.1">
+        </div>
+
+        <button type="submit" class="btn">Create Task</button>
+    </form>
+</div>
+
+<script>
+document.getElementById("task-create-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const title = document.getElementById("title").value;
+    const description = document.getElementById("description").value;
+    const priority = document.getElementById("priority").value;
+    const due_date = document.getElementById("due_date").value;
+    const estimated_hours = document.getElementById("estimated_hours").value;
+    const errorMessage = document.getElementById("error-message");
+
+    // Get token from cookies
+    const token = document.cookie
+        .split("; ")
+        .find(row => row.startsWith("access_token="))
+        ?.split("=")[1];
+
+    try {
+        const response = await fetch("/api/tasks/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                title,
+                description,
+                priority,
+                due_date,
+                estimated_hours
+            }),
+        });
+
+        if (response.ok) {
+            window.location.href = "/tasks";
+        } else {
+            const data = await response.json();
+            errorMessage.style.display = "block";
+            errorMessage.textContent = data.detail || "Failed to create task.";
+        }
+    } catch (err) {
+        errorMessage.style.display = "block";
+        errorMessage.textContent = "Something went wrong. Please try again.";
+    }
+});
+</script>
+{% endblock %}

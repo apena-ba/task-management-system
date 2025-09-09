@@ -52,6 +52,9 @@ INSTALLED_APPS = [
     # Custom apps
     'apps.users',
     'apps.tasks',
+    'apps.common',
+    'apps.authentication',
+    'apps.celery',
 ]
 
 REST_FRAMEWORK = {
@@ -133,6 +136,26 @@ DATABASES = {
     }
 }
 
+# Celery
+
+CELERY_BROKER_URL = os.getenv("REDIS_URL")
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
+CELERY_BEAT_SCHEDULE = {
+    "daily-summary": {
+        "task": "apps.celery.tasks.generate_daily_summary",
+        "schedule": 86400.0,  # daily
+    },
+    "overdue-check": {
+        "task": "apps.celery.tasks.check_overdue_tasks",
+        "schedule": 3600.0,  # hourly
+    },
+    "cleanup": {
+        "task": "apps.celery.tasks.cleanup_archived_tasks",
+        "schedule": 604800.0,  # weekly
+    },
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -168,7 +191,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'apps/common/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

@@ -38,6 +38,9 @@ class User(AbstractUser):
     Custom user model extending Django's AbstractUser.
     Each user can belong to one team.
     """
+    
+    # Core fields
+    email = models.EmailField(unique=True)
 
     # Relationships
     team = models.ForeignKey(

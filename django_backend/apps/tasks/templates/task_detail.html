@@ -1,0 +1,57 @@
+{% extends "task_base.html" %}
+
+{% block title %}Task Detail{% endblock %}
+
+{% block content %}
+<div class="task-detail-container">
+    <h2>{{ task.title }}</h2>
+    <p><strong>Status:</strong> {{ task.status|title }}</p>
+    <p><strong>Priority:</strong> {{ task.priority|title }}</p>
+    <p><strong>Due Date:</strong> {{ task.due_date }}</p>
+    <p><strong>Estimated Hours:</strong> {{ task.estimated_hours }}</p>
+    {% if task.actual_hours %}
+        <p><strong>Actual Hours:</strong> {{ task.actual_hours }}</p>
+    {% endif %}
+    <p><strong>Description:</strong> {{ task.description }}</p>
+    <p><strong>Created by:</strong> {{ task.created_by.username }}</p>
+    <p><strong>Assigned to:</strong> 
+        {% for user in task.assigned_to.all %}
+            {{ user.username }}{% if not forloop.last %}, {% endif %}
+        {% empty %}
+            Nobody yet
+        {% endfor %}
+    </p>
+
+    <div class="task-actions">
+        <a href="{% url 'tasks' %}" class="btn">Back to Tasks</a>
+        <button id="delete-task-btn" class="btn-danger">Delete Task</button>
+    </div>
+</div>
+
+<script>
+document.getElementById("delete-task-btn").addEventListener("click", async function() {
+    const taskId = "{{ task.id }}";
+    const accessToken = document.cookie
+        .split("; ")
+        .find(row => row.startsWith("access_token="))
+        ?.split("=")[1];
+
+    try {
+        const response = await fetch(`/api/tasks/${taskId}/`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+            }
+        });
+
+        if (response.ok) {
+            window.location.href = "/tasks";
+        } else {
+            alert("Failed to delete task.");
+        }
+    } catch (err) {
+        alert("Something went wrong. Please try again.");
+    }
+});
+</script>
+{% endblock %}
